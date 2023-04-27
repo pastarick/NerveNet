@@ -56,7 +56,10 @@ def init_evaluate(args):
         model.policy.mlp_extractor.xml_assets_path.parents._parts = Path(
             pybullet_data.getDataPath()) / "mjcf"
 
+    import pybullet_envs.bullet as e
     env = gym.make(env_name)
+
+    env = gym.wrappers.RecordVideo(env, video_length=1000, video_folder='./video')
 
     if args.render:
         env.render()  # call this before env.reset, if you want a window showing the environment
@@ -64,14 +67,13 @@ def init_evaluate(args):
     def logging_callback(local_args, globals):
         if local_args["done"]:
             i = len(local_args["episode_rewards"])
-            episode_reward = local_args["episode_reward"]
-            episode_length = local_args["episode_length"]
+            episode_reward = local_args["reward"]
             print(f"Finished {i} episode with reward {episode_reward}")
 
     episode_rewards, episode_lengths = evaluate_policy(model,
                                                        env,
                                                        n_eval_episodes=args.num_episodes,
-                                                       render=args.render,
+                                                       render=False,
                                                        deterministic=True,
                                                        return_episode_rewards=True,
                                                        callback=logging_callback)
