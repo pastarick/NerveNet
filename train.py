@@ -12,6 +12,7 @@ import pyaml
 import torch
 import yaml
 from stable_baselines3.common.utils import get_device
+from stable_baselines3.common.vec_env import VecVideoRecorder
 from stable_baselines3.ppo import MlpPolicy
 from torch import nn
 
@@ -155,6 +156,19 @@ def train(args):
     model.save(os.path.join(args.tensorboard_log +
                             "/" + log_name, args.model_name))
 
+    os.makedirs(f"./video/{log_name}")
+    vec_env = VecVideoRecorder(env, f"./video/{log_name}", record_video_trigger=lambda x: x == 0, video_length=1000)
+    obs = vec_env.reset()
+    for i in range(1000):
+        action, _states = model.predict(obs, deterministic=True)
+        obs, reward, done, info = vec_env.step(action)
+        vec_env.render()
+        # VecEnv resets automatically
+        # if done:
+        #   obs = env.reset()
+
+    vec_env.close()
+
 
 def dir_path(path):
     if os.path.isdir(path):
@@ -167,7 +181,7 @@ def dir_path(path):
 def parse_arguments():
     p = argparse.ArgumentParser()
     p.add_argument('--config', type=argparse.FileType(mode='r'),
-                   default='configs/GNN_AntBulletEnv-v02.yaml')
+                   default='configs/GNN_AntBulletEnv-v0.yaml')
     p.add_argument('--task_name', help='The name of the environment to use')
     p.add_argument('--xml_assets_path',
                    help="The path to the directory where the xml of the task's robot is defined",
@@ -178,7 +192,7 @@ def parse_arguments():
                    choices=["A2C", "PPO"])
     p.add_argument('--policy',
                    help='The type of model to use.',
-                   choices=["GnnPolicy", "GnnPolicy_V0", "MlpPolicy"])
+                   choices=["GnnPolicy", "GnnPolicy_V0", "GnnPolicy_V2", "MlpPolicy"])
     p.add_argument("--total_timesteps",
                    help="The total number of samples (env steps) to train on",
                    type=int,

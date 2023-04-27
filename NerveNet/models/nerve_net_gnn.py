@@ -511,9 +511,9 @@ class NerveNetGNN_V2(NerveNetGNN):
             -1])  # [batchsize * number_action_nodes, features_dim]
 
         latent_pis = torch.zeros(
-            *observations.shape[:-1], len(self.action_node_indices))
+            *observations.shape[:-1], len(self.action_node_indices)).to(self.device)
         log_std_action = torch.zeros(
-            *observations.shape[:-1], len(self.action_node_indices))
+            *observations.shape[:-1], len(self.action_node_indices)).to(self.device)
         if self.policy_readout_mode == 'pooled':
             pooled_policy_embedding = action_nodes_embedding.mean(dim=1)
             latent_pis = self.policy_net(pooled_policy_embedding)
