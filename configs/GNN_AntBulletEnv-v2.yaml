@@ -1,8 +1,7 @@
-#experiment_name: split_readout
-#experiment_name_suffix: ""
+experiment_name: 'GNN_ant_flat_v2_5M_3e5_tanh'
 task_name: AntBulletEnv-v0
 alg: PPO
-policy: GnnPolicy
+policy: GnnPolicy_V2
 
 device: cuda:0
 
@@ -19,18 +18,21 @@ total_timesteps: !!float 5e6
 n_envs: 1
 n_steps: 1024
 batch_size: 64
-activation_fn: ReLU
+activation_fn: Tanh
 
-net_arch: 
+net_arch:
   input:
-    - [Linear, 12]
+    - [Linear, 256]
+    - [Linear, 256]
   propagate:
-    - [NerveNetConv, 64]
-    - [NerveNetConv, 64]
-    - [NerveNetConv, 64]
-    - [NerveNetConv, 64]
+    - [NerveNetConv, 128]
+    - [NerveNetConv, 128]
+    - [NerveNetConv, 128]
+    - [NerveNetConv, 128]
   policy:
-    - [Linear, 128]
+    - [Linear, 256]
+    - [Linear, 256]
   value:
-    - [Linear, 128]
+    - [Linear, 256]
+    - [Linear, 256]
 

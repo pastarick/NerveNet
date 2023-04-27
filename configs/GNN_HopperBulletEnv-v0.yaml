@@ -1,12 +1,20 @@
-experiment_name: 'GNN_Prop16_16_16_P16_V16_N1000_B64_lr3e-4'
+experiment_name: 'GNN_flat_v0'
 task_name: HopperBulletEnv-v0
 alg: PPO
 policy: GnnPolicy
 
-device: cuda
+device: cuda:0
 
-learning_rate: 3.0e-4
-total_timesteps: 5000000
-n_steps: 1000
+drop_body_nodes: True
+use_sibling_relations: False
+
+# ["action_per_controller", "pooled", "pooled_by_group", "flattened"]
+policy_readout_mode: 'flattened'
+
+gnn_for_values: False
+
+learning_rate: 3.0e-5
+total_timesteps: 1000000
+n_steps: 1024
 batch_size: 64
 activation_fn: Tanh

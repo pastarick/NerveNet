@@ -3,6 +3,9 @@ task_name: HalfCheetahBulletEnv-v0
 alg: PPO
 policy: GnnPolicy
 
+drop_body_nodes: True
+use_sibling_relations: False
+
 device: cpu
 
 learning_rate: 3.0e-4
