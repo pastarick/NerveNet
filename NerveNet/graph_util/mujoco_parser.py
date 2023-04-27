@@ -115,7 +115,8 @@ def parse_mujoco_graph(task_name: str = None,
             # try to find it in custom envs of this repo
             xml_path = Path(os.getcwd()) / \
                 "NerveNet/gym_envs/assets" / xml_name
-
+            
+    xml_path = xml_name
     with open(str(xml_path), "r") as xml_file:
         xml_soup = BeautifulSoup(xml_file.read(), "xml")
 

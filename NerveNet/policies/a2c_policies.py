@@ -226,7 +226,8 @@ class ActorCriticGnnPolicy_V2(ActorCriticGnnPolicy):
             mlp_extractor_class=NerveNetGNN_V2,
             **kwargs
         )
-        self.log_std = th.ones(self.action_dim)
+        # batch size 64
+        self.log_std = torch.nn.Parameter(torch.ones((64, self.log_std.shape[0])), requires_grad=True)
 
     def _build_mlp_extractor(self) -> None:
         """
@@ -247,7 +248,7 @@ class ActorCriticGnnPolicy_V2(ActorCriticGnnPolicy):
         # Preprocess the observation if needed
         features = self.extract_features(obs)
         (latent_pi, log_std_action), latent_vf = self.mlp_extractor(features)
-        self.log_std = log_std_action
+        self.log_std = torch.nn.Parameter(log_std_action, requires_grad=True)
         # Features for sde
         latent_sde = latent_pi
         if self.sde_features_extractor is not None:
