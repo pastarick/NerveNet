@@ -425,6 +425,9 @@ class NerveNetGNN(nn.Module):
 
         return latent_pis, latent_vf
 
+    def forward_critic(self, observations: torch.Tensor) -> torch.Tensor:
+        return self.forward(observations)[1]
+
 
 class NerveNetGNN_V2(NerveNetGNN):
     """

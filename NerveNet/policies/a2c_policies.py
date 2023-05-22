@@ -96,7 +96,7 @@ class ActorCriticGnnPolicy(ActorCriticPolicy):
             optimizer_class: Type[torch.optim.Optimizer] = torch.optim.Adam,
             optimizer_kwargs: Optional[Dict[str, Any]] = None,
     ):
-
+        self.sde_features_extractor = None
         self.mlp_extractor_class = mlp_extractor_class
         self.mlp_extractor_kwargs = mlp_extractor_kwargs
         super(ActorCriticGnnPolicy, self).__init__(
@@ -119,6 +119,7 @@ class ActorCriticGnnPolicy(ActorCriticPolicy):
             optimizer_kwargs=optimizer_kwargs,
         )
         self.action_net = torch.nn.Identity()
+
 
     @property
     def device(self) -> torch.device:
@@ -188,7 +189,7 @@ class ActorCriticGnnPolicy(ActorCriticPolicy):
         values = latent_vf  # nervenet GNN already returns the values
         # Evaluate the values for the given observations
         distribution = self._get_action_dist_from_latent(
-            mean_actions, latent_sde=latent_sde)
+            mean_actions, latent_sde)
         actions = distribution.get_actions(deterministic=deterministic)
 
         log_prob = distribution.log_prob(actions)
@@ -211,6 +212,22 @@ class ActorCriticGnnPolicy(ActorCriticPolicy):
         log_prob = distribution.log_prob(actions)
         values = latent_vf  # nervenet GNN already returns the values
         return values, log_prob, distribution.entropy()
+
+    def _get_action_dist_from_latent(self, mean_actions: torch.Tensor, log_std_action: torch.Tensor, latent_sde: Optional[torch.Tensor] = None) -> Distribution:
+        """
+        Retrieve action distribution given the latent codes.
+
+        :param latent_pi: Latent code for the actor
+        :param latent_sde: Latent code for the gSDE exploration function
+        :return: Action distribution
+        """
+
+        if isinstance(self.action_dist, DiagGaussianDistribution):
+            return self.action_dist.proba_distribution(mean_actions, log_std_action)
+        elif isinstance(self.action_dist, StateDependentNoiseDistribution):
+            return self.action_dist.proba_distribution(mean_actions, log_std_action, latent_sde)
+        else:
+            raise ValueError("Invalid action distribution")
 
 
 class ActorCriticGnnPolicy_V2(ActorCriticGnnPolicy):

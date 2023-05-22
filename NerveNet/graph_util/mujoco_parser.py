@@ -343,7 +343,7 @@ def __build_relation_matrix(tree: List[dict],
 
     '''
     num_node = len(tree)
-    relation_matrix = np.zeros([num_node, num_node], dtype=np.int)
+    relation_matrix = np.zeros([num_node, num_node], dtype=int)
 
     # nodes with outgoing edge
     for node_out in tree:

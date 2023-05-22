@@ -357,7 +357,7 @@ def _append_tree_relation(tree, node_type_allowed, root_connection_option):
                 'yN, Rn': with neighbour, no additional connection
     '''
     num_node = len(tree)
-    relation_matrix = np.zeros([num_node, num_node], dtype=np.int)
+    relation_matrix = np.zeros([num_node, num_node], dtype=int)
 
     # step 1: set graph connection relationship
     for i_node in tree:
@@ -727,7 +727,7 @@ def _append_node_parameters(tree,
         for node_type in node_type_allowed:
             shape = node_parameters[node_type].shape
             new_node_parameters = np.zeros(
-                [shape[0], max_length], dtype=np.int)
+                [shape[0], max_length], dtype=int)
             new_node_parameters[:, 0: shape[1]] = node_parameters[node_type]
             node_parameters[node_type] = new_node_parameters
             para_size_dict[node_type] = max_length

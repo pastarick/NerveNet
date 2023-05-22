@@ -14,7 +14,7 @@ from stable_baselines3.common.callbacks import CheckpointCallback
 from stable_baselines3.common.policies import ActorCriticPolicy
 import pybullet_envs  # register pybullet envs from bullet3
 
-from NerveNet.policies import register_policies
+from NerveNet.policies.register_policies import policy_aliases
 
 basepath = Path(os.getcwd())
 print(basepath)
@@ -37,6 +37,9 @@ env = gym.make(task_name)
 log_name = '{}_{}'.format(task_name, datetime.now().strftime('%d-%m_%H-%M-%S'))
 checkpoint_callback = CheckpointCallback(save_freq=50, save_path='runs/' + log_name,
                                          name_prefix='rl_model')
+
+PPO.policy_aliases = policy_aliases
+
 model = PPO("GnnPolicy",
             env,
             verbose=1,
