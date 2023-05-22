@@ -38,9 +38,10 @@ log_name = '{}_{}'.format(task_name, datetime.now().strftime('%d-%m_%H-%M-%S'))
 checkpoint_callback = CheckpointCallback(save_freq=50, save_path='runs/' + log_name,
                                          name_prefix='rl_model')
 
-PPO.policy_aliases = policy_aliases
+PPO.policy_aliases.update(policy_aliases)
+A2C.policy_aliases.update(policy_aliases)
 
-model = PPO("GnnPolicy",
+model = A2C("GnnPolicy",
             env,
             verbose=1,
             policy_kwargs={
@@ -63,7 +64,7 @@ model = PPO("GnnPolicy",
                     ],
                     "value": [
                         (nn.Linear, 64),
-                        (nn.Linear, 64)
+                        (nn.Linear, 1)
                     ]
                 },
                 "activation_fn":  nn.Tanh,
@@ -72,7 +73,7 @@ model = PPO("GnnPolicy",
             learning_rate=3.0e-4,
             # batch_size=64,
             # n_epochs=10,
-            n_steps=1024)
+            n_steps=1)
 
 model.learn(total_timesteps=1000000, callback=checkpoint_callback,
             tb_log_name=log_name)
