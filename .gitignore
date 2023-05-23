@@ -44,3 +44,4 @@ pip-selfcheck.json
 .idea
 bullet3
 pip-delete-this-directory.txt
+.DS_Store
