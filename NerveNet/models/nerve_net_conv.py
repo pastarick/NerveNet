@@ -6,9 +6,9 @@ from stable_baselines3.common.utils import get_device
 from torch import Tensor
 from torch import nn
 from torch.nn import Parameter
-from torch_sparse import SparseTensor, matmul
+from torch_sparse import SparseTensor, matmul, set_diag
 from torch_geometric.nn.conv import MessagePassing, GatedGraphConv, GATConv
-from torch_geometric.utils import add_remaining_self_loops, remove_self_loops
+from torch_geometric.utils import add_remaining_self_loops, remove_self_loops, add_self_loops
 from torch_geometric.utils.num_nodes import maybe_num_nodes
 from torch_geometric.typing import Adj, OptTensor, PairTensor
 
@@ -313,10 +313,10 @@ class NerveNetConvGAT(GATConv):
 
     def forward(self, x: Union[Tensor, OptPairTensor], edge_index: Adj,
                 size: Size = None, return_attention_weights=None):
-        # type: (Union[Tensor, OptPairTensor], Tensor, Size, NoneType) -> Tensor  # noqa
-        # type: (Union[Tensor, OptPairTensor], SparseTensor, Size, NoneType) -> Tensor  # noqa
-        # type: (Union[Tensor, OptPairTensor], Tensor, Size, bool) -> Tuple[Tensor, Tuple[Tensor, Tensor]]  # noqa
-        # type: (Union[Tensor, OptPairTensor], SparseTensor, Size, bool) -> Tuple[Tensor, SparseTensor]  # noqa
+        # type : (Union[Tensor, OptPairTensor], Tensor, Size, NoneType) -> Tensor  # noqa
+        # type : (Union[Tensor, OptPairTensor], SparseTensor, Size, NoneType) -> Tensor  # noqa
+        # type : (Union[Tensor, OptPairTensor], Tensor, Size, bool) -> Tuple[Tensor, Tuple[Tensor, Tensor]]  # noqa
+        # type : (Union[Tensor, OptPairTensor], SparseTensor, Size, bool) -> Tuple[Tensor, SparseTensor]  # noqa
         r"""
         Args:
             return_attention_weights (bool, optional): If set to :obj:`True`,
