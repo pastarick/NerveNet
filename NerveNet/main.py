@@ -41,15 +41,16 @@ checkpoint_callback = CheckpointCallback(save_freq=50, save_path='runs/' + log_n
 PPO.policy_aliases.update(policy_aliases)
 A2C.policy_aliases.update(policy_aliases)
 
-model = A2C("GnnPolicy",
-            env,
+model = A2C("GnnPolicy",  # the key in the dict `policy_aliases`
+            env,  # the gym environment. It is possibly created (if just a string) and it is used by the agent to
+            # retrieve observation space and action space
             verbose=1,
-            policy_kwargs={
-                'mlp_extractor_kwargs': {
+            policy_kwargs={  # almost entirely passed to the policy class
+                'mlp_extractor_kwargs': {  # they go to policy class, which passes them to class NerveNetGNN
                     'task_name': task_name,
                     'xml_assets_path': None,
                 },
-                'net_arch':  {
+                'net_arch':  {  # they go to policy class, which passes them to ActorCriticPolicy from sb3
                     "input": [
                         (nn.Linear, 6),
                     ],
@@ -67,7 +68,7 @@ model = A2C("GnnPolicy",
                         (nn.Linear, 1)
                     ]
                 },
-                "activation_fn":  nn.Tanh,
+                "activation_fn":  nn.Tanh,  # go to policy class
             },
             tensorboard_log="runs",
             learning_rate=3.0e-4,
