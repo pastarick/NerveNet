@@ -85,9 +85,9 @@ def get_mujoco_model_settings():
     XML_DICT = {'Humanoid-v1': 'humanoid.xml',
                 'HumanoidStandup-v1': 'humanoid.xml',
                 'HalfCheetah-v1': 'half_cheetah.xml',
-                'Hopper-v1': 'hopper.xml',
+                'Hopper-v1': '/home/rsepe/Projects/NerveNet/hopper.xml',
                 'Walker2d-v1': 'walker2d.xml',
-                'AntS-v1': 'ant.xml',
+                'AntS-v1': '/home/rsepe/Projects/NerveNet/ant.xml',
                 'Swimmer-v1': 'SnakeThree.xml',
 
                 'WalkersHopper-v1': 'WalkersHopper.xml',

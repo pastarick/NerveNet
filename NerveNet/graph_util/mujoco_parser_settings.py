@@ -43,8 +43,8 @@ EDGE_TYPES = {
 
 XML_DICT = {"Walker2DBulletEnv-v0": "walker2d.xml",
             "HalfCheetahBulletEnv-v0": "half_cheetah.xml",
-            "AntBulletEnv-v0": "ant.xml",
-            "HopperBulletEnv-v0": "hopper.xml",
+            "AntBulletEnv-v0": "/home/rsepe/Projects/NerveNet/ant.xml",
+            "HopperBulletEnv-v0": "/home/rsepe/Projects/NerveNet/hopper.xml",
             "HumanoidBulletEnv-v0": "humanoid_symmetric.xml",
             "HumanoidFlagrunBulletEnv-v0": "humanoid_symmetric.xml",
             "HumanoidFlagrunHarderBulletEnv-v0": "humanoid_symmetric.xml",
