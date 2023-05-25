@@ -2,9 +2,10 @@
     @author:
         Tobias Schmidt, Hannes Stark
 """
-
+import os
 from enum import IntEnum
 
+from util import PROJECT_DIRECTORY
 
 ALLOWED_NODE_TYPES = ["root", "joint", "body"]
 
@@ -43,8 +44,8 @@ EDGE_TYPES = {
 
 XML_DICT = {"Walker2DBulletEnv-v0": "walker2d.xml",
             "HalfCheetahBulletEnv-v0": "half_cheetah.xml",
-            "AntBulletEnv-v0": "/home/rsepe/Projects/NerveNet/ant.xml",
-            "HopperBulletEnv-v0": "/home/rsepe/Projects/NerveNet/hopper.xml",
+            "AntBulletEnv-v0": os.path.join(PROJECT_DIRECTORY, "ant.xml"),
+            "HopperBulletEnv-v0": os.path.join(PROJECT_DIRECTORY, "hopper.xml"),
             "HumanoidBulletEnv-v0": "humanoid_symmetric.xml",
             "HumanoidFlagrunBulletEnv-v0": "humanoid_symmetric.xml",
             "HumanoidFlagrunHarderBulletEnv-v0": "humanoid_symmetric.xml",

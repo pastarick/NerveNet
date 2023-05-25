@@ -593,7 +593,7 @@ def __get_input_mapping(task_name: str, tree: List[dict], embedding_option: Embe
     # verify that we actually assign every node here into some group
     assert sum([len(node_list) for node_list in input_type_dict.values()]) == len(
         tree), "Every node must be assigned to exactly one group!"
-    # also verify that we have mappings for every noed
+    # also verify that we have mappings for every node
     assert len(obs_input_mapping) == len(
         tree), "Every node must have an observation input mapping!"
     assert len(static_input_mapping) == len(

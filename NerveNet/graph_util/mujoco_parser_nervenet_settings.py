@@ -5,6 +5,9 @@
 """
 
 import num2words
+import os
+
+from util import PROJECT_DIRECTORY
 
 TASK_DICT = {
     'Centipede': [3, 5, 7] + [4, 6, 8, 10, 12, 14] + [20, 30, 40, 50],
@@ -85,9 +88,9 @@ def get_mujoco_model_settings():
     XML_DICT = {'Humanoid-v1': 'humanoid.xml',
                 'HumanoidStandup-v1': 'humanoid.xml',
                 'HalfCheetah-v1': 'half_cheetah.xml',
-                'Hopper-v1': '/home/rsepe/Projects/NerveNet/hopper.xml',
+                'Hopper-v1': os.path.join(PROJECT_DIRECTORY, 'hopper.xml'),
                 'Walker2d-v1': 'walker2d.xml',
-                'AntS-v1': '/home/rsepe/Projects/NerveNet/ant.xml',
+                'AntS-v1': os.path.join(PROJECT_DIRECTORY, 'ant.xml'),
                 'Swimmer-v1': 'SnakeThree.xml',
 
                 'WalkersHopper-v1': 'WalkersHopper.xml',

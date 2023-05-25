@@ -82,3 +82,6 @@ class LoggingCallback(BaseCallback):
         This event is triggered before exiting the `learn()` method.
         """
         pass
+
+
+PROJECT_DIRECTORY = os.path.dirname(__file__)
