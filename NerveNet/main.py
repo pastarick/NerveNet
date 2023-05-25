@@ -47,8 +47,11 @@ model = A2C("GnnPolicy",  # the key in the dict `policy_aliases`
             verbose=1,
             policy_kwargs={  # almost entirely passed to the policy class
                 'mlp_extractor_kwargs': {  # they go to policy class, which passes them to class NerveNetGNN
-                    'task_name': task_name,
-                    'xml_assets_path': None,
+                    'task_name': task_name,  # the name of the task, in theory it should be from a pool of tasks
+                    # already present in pybullet
+                    # as an alternative to attr `task_name` one can specify `xml_name` which is directly the name of xml
+                    'xml_assets_path': None,  # if None, the default behavior is to look for the xml files in the
+                    # pybullet folder
                 },
                 'net_arch':  {  # they go to policy class, which passes them to ActorCriticPolicy from sb3
                     "input": [
