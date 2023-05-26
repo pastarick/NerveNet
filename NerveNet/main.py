@@ -6,7 +6,7 @@ from pathlib import Path
 import torch
 from torch import nn
 from torch_geometric.nn import GCNConv
-from NerveNet.models.nerve_net_conv import NerveNetConv
+from NerveNet.models.nerve_net_conv import NerveNetConv, NerveNetConvGRU, NerveNetConvGAT
 
 import gym
 from stable_baselines3 import PPO, A2C
@@ -58,9 +58,9 @@ model = A2C("GnnPolicy",  # the key in the dict `policy_aliases`
                         (nn.Linear, 6),
                     ],
                     "propagate": [
-                        (NerveNetConv, 12),
-                        # (NerveNetConv, 12),
+                        # (NerveNetConvGRU, (24, 12, 5)),
                         # (NerveNetConv, 12)
+                        (NerveNetConvGAT, (12, 12))
                     ],
                     "policy": [
                         (nn.Linear, 64),
@@ -77,7 +77,8 @@ model = A2C("GnnPolicy",  # the key in the dict `policy_aliases`
             learning_rate=3.0e-4,
             # batch_size=64,
             # n_epochs=10,
-            n_steps=1)
+            # n_steps=1
+            )
 
 model.learn(total_timesteps=1000000, callback=checkpoint_callback,
             tb_log_name=log_name)

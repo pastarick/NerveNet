@@ -90,7 +90,7 @@ class NerveNetConv(MessagePassing):
             self.update_masks = update_masks
         out = self.propagate(edge_index, x=x, update_masks=update_masks,
                              size=None)
-
+        # assert x.shape[:-1] == out.shape[:-1], f"NO: x: {x.shape}, out: {out.shape}"
         return out
 
     def message(self, x_j: Tensor, update_masks: dict) -> Tensor:
@@ -197,8 +197,8 @@ class NerveNetConvGRU(GatedGraphConv):
                              'be larger than the number of output channels')
 
         if x.size(-1) < self.out_channels:
-            zero = x.new_zeros(x.size(0), self.out_channels - x.size(-1))
-            x = torch.cat([x, zero], dim=1)
+            zero = x.new_zeros(*x.shape[:-1], self.out_channels - x.size(-1))
+            x = torch.cat([x, zero], dim=-1)
 
         for i in range(self.num_layers):
             m = torch.matmul(x, self.weights[i])
@@ -280,7 +280,9 @@ class NerveNetConvGAT(GATConv):
                  negative_slope: float = 0.2, dropout: float = 0.0,
                  add_self_loops: bool = True, bias: bool = True, **kwargs):
         kwargs.setdefault('aggr', 'add')
-        super(GATConv, self).__init__(node_dim=0, **kwargs)
+        args = locals()
+        args.pop('self')
+        super().__init__(**args)
         self.in_channels = in_channels
         self.out_channels = out_channels
         self.heads = heads
